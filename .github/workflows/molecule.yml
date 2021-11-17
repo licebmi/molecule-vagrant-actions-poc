@@ -7,15 +7,15 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        module: ["combined", "nginx", "postgres"]
+        module: ["nginx", "postgres"]
     steps:
       - uses: actions/checkout@v2
       - name: Test modules
-        if: contains("combined", matrix.module)
         run: |
           cd ${{ matrix.module }}
           mol test
-      - name: Test modules
-        if: ! contains("combined", matrix.module)
-        run: |
-          mol test
+
+      # - name: Test modules
+      #   if: ! contains("combined", matrix.module)
+      #   run: |
+      #     mol test
