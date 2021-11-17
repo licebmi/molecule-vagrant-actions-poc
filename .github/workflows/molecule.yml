@@ -16,6 +16,6 @@ jobs:
           cd ${{ matrix.module }}
           mol test
       - name: Test modules
-        if: !contains("combined", matrix.module)
+        if: ! contains("combined", matrix.module)
         run: |
           mol test
