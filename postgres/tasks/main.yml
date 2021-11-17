@@ -24,30 +24,21 @@
 - name: "Verify data dir"
   become: yes
   register: postgres_data_dir
-  file:
+  stat:
     path: /var/lib/postgresql/13/data
-    ensure: file
-
-- name: verify variable
-  debug:
-    var: postgres_data_dir
 
 - name: "Configure postgres with emerge"
   become: "yes"
   shell: "emerge --config dev-db/postgresql"
-  when:
+  when: not postgres_data_dir.stat.exists
 
 - name: "Start postgresql service"
   become: "yes"
-  register: start_service
+  changed_when: false
   service:
     name: "postgresql-13"
     enabled: "yes"
     state: "started"
-
-- name: show service
-  debug:
-    var: start_service
 
 - name: "Create postgres database"
   become: "yes"
