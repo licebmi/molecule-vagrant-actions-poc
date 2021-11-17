@@ -4,4 +4,4 @@
   tasks:
     - name: "Include nginx"
       include_role:
-        name: "ansible-nginx"
+        name: "nginx"
