@@ -1,0 +1,41 @@
+---
+# tasks file for nginx
+- name: "Install gentoolkit"
+  become: "yes"
+  register: "install_gentoolkit_result"
+  changed_when: >
+    not install_gentoolkit_result.stdout |
+    regex_search('gentoolkit already installed')
+  shell: |
+    if hash euse > /dev/null; then
+      echo "gentoolkit already installed"
+    else
+      emerge -q app-portage/gentoolkit > /dev/null
+    fi
+
+- name: "Install nginx"
+  become: "yes"
+  portage:
+    package: "www-servers/nginx"
+
+- name: "Start nginx service"
+  become: "yes"
+  service:
+    name: "nginx"
+    enabled: "yes"
+    state: "started"
+
+- name: "Create nginx config directory"
+  become: "yes"
+  register: "nginx_config_directory"
+  file:
+    mode: 0755
+    path: "/var/www/localhost/htdocs"
+    state: "directory"
+
+- name: "Setup simulated healthcheck"
+  become: "yes"
+  template:
+    dest: "{{ nginx_config_directory.path }}/health"
+    src: "health.json"
+    mode: 0644

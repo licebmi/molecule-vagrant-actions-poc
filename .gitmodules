@@ -1,0 +1,6 @@
+[submodule "role-nginx"]
+	path = role-nginx
+	url = git@github.com:licebmi/role-nginx.git
+[submodule "role-postgresql"]
+	path = role-postgresql
+	url = git@github.com:licebmi/role-postgresql.git

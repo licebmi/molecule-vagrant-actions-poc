@@ -1,0 +1,17 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: "Verify that the service is healthy"
+    register: "healthcheck_result"
+    uri:
+      url: "http://localhost/health"
+      return_content: yes
+
+  - name: "Assert healthcheck"
+    assert:
+      that:
+        - "{{ healthcheck_result.status }} == 200"

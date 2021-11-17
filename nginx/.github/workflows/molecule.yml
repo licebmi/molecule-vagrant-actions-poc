@@ -1,0 +1,14 @@
+---
+name: Molecule Test
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: self-hosted
+    strategy:
+      max-parallel: 1
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test with molecule
+        run: |
+          molecule test
